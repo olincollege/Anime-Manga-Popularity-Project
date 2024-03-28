@@ -9,10 +9,11 @@ def make_data_set(path):
     Reads the CSV file and creates readable data
 
     Args:
-        path: A path to the CSV file that will be read
+        path: A string that represents the path to the CSV file that will be
+        read
 
     Return:
-        A data set of the entered CSV file written with the columns
+        A pandas dataframe of the entered CSV file written with the columns
         "Rank,Title,Rating,Image_URL,Episodes,Dates"
     """
     data_set = pd.read_csv(path)
@@ -22,52 +23,34 @@ def make_data_set(path):
 
 def combine_data_sets(data1, data2):
     """
-    Combines two data sets from CSV files into one
+    Combines two dataframes from CSV files into one
 
     Args:
-        data1: The first data set
-        data2: The second data set
+        data1: The first pandas dataframe
+        data2: The second pandas dataframe
 
     Return:
-        A single data set that has the data from the two entered in
+        A single pandas dataframe that has the data from the two entered in
 
     """
     data_combined = pd.concat([data1, data2], ignore_index=True)
-    data_combined = data_combined.sort_values(by=["Rank", "Rating"])
     return data_combined
 
-    # data_set = pd.read_csv(path)
 
-
-# def find_rank(data_fav, data_pop):
-#    """ """
-#    count = 0
-#    while count < len(data_fav["Rank"]):
-
-
-# def sort_data_set(data_fav, data_pop):
-#    """ """
-#    ranking_fav = {}
-#    ranking_pop = {}
-#    for i in data_fav["Title"]:
-#        if i in data_fav["Title"] and i in data_pop["Title"]:
-#            ranking_fav[i] = data_fav[i]
-
-
-def make_scatter_plot(data_set):
+def make_scatter_plot(data):
     """
     Creates a scatter plot given a data set
 
     Arg:
-        A data set of "Rank,Title,Rating,Image_URL,Episodes,Dates" of which
-        is being graphed
+        data: A pandas dataframe of "Rank,Title,Rating,Image_URL,Episodes,Dates"
+        of which is being graphed
 
     Return:
         A visualized scatter plot of the rank on the x-axis and the rating
         on the y-axis
     """
-    rank = data_set["Rank"]
-    rating = data_set["Rating"]
+    rank = data["Rank"]
+    rating = data["Rating"]
 
     plt.plot(rank, rating, ".")
 
@@ -77,16 +60,18 @@ def make_scatter_plot(data_set):
     plt.show()
 
 
-def analyze_scatter_plot(data):
+def analyze_scatter_plot_max(data):
     """
     Given the data set used to plot the scatter plot, create findings to help
     answer the reasearch question
 
     Args:
-        data: The same data set used to crate the scatter plot
+        data: A pandas dataframe of "Rank,Title,Rating,Image_URL,Episodes,Dates"
+        of which is being graphed
 
     Return:
-        A string that has the title of the "anime/manga"
+        A pandas series that has the information of the "anime/manga" that
+        has the highest rating
     """
     max_rating = max(data["Rating"])
     csv.DictReader(data)
@@ -96,7 +81,30 @@ def analyze_scatter_plot(data):
             break
         else:
             counter += 1
-    print(data.iloc[counter])
+    return data.iloc[counter]
+
+
+def analyze_scatter_plot_min(data):
+    """
+    Given the data set used to plot the scatter plot, create findings to help
+    answer the reasearch question
+
+    Args:
+        data: The same data set used to crate the scatter plot
+
+    Return:
+        A kfawenfjpojsopa that has the information of the "anime/manga" that
+        has the highest rating
+    """
+    min_rating = min(data["Rating"])
+    csv.DictReader(data)
+    counter = 0
+    for row in data["Rating"]:
+        if row == min_rating:
+            break
+        else:
+            counter += 1
+    return data.iloc[counter]
 
 
 def make_wordcloud(data):
@@ -104,8 +112,8 @@ def make_wordcloud(data):
     Creates a visualized wordcloud given a data set
 
     Args:
-        A data set of "Rank,Title,Rating,Image_URL,Episodes,Dates" of which
-        is being graphed
+        data: A pandas dataframe of "Rank,Title,Rating,Image_URL,
+        Episodes,Dates" of which is being graphed
 
     Returns:
         A visualized wordcloud of the most common words that appear
@@ -123,17 +131,16 @@ def make_wordcloud(data):
     plt.show()
 
 
-def make_bar_graph(data):
+def clean_episodes(data):
     """
-    Creates a visualized bar graph from the given data set
+    Given the data set, extract integer values from preformatted sentences
 
     Args:
-        A data set of "Rank,Title,Rating,Image_URL,Episodes,Dates" of which
-        is being graphed
+        data: A pandas dataframe set of "Rank,Title,Rating,Image_URL,Episodes,Dates"
 
-    Returns:
-        A visualized bar graph of each anime/manga and their respective episode
-        counts
+    Return:
+        A list of integer values that represent the number of episodes,
+        correpsonding the the data sets indexes
     """
     num_episodes = []
     for row in data["Episodes"]:
@@ -149,6 +156,23 @@ def make_bar_graph(data):
         if row == "?":
             num_episodes[i] = "1000"
     num_episodes = [eval(i) for i in num_episodes]
+
+    return num_episodes
+
+
+def make_bar_graph(data):
+    """
+    Creates a visualized bar graph from the given data set
+
+    Args:
+        data: A data set of "Rank,Title,Rating,Image_URL,Episodes,Dates" of which
+        is being graphed
+
+    Return:
+        A visualized bar graph of each anime/manga and their respective episode
+        counts
+    """
+    num_episodes = clean_episodes(data)
 
     plt.figure(figsize=(10, 7))
     plt.barh(data["Title"], num_episodes)
