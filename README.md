@@ -1,33 +1,18 @@
-# Python Project Template Repository
+# Anime and Manga Popularity Project
 
-This is a template repository for a Python project. Feel free to use and edit
-this repository (including this file) for your needs. Below, find some
-instructions and tips for using this template repository.
-
-## How to Use
-
-Click on the "Use this template" button in the top right corner to create a new
-repository based on this template. If this is for a class project, we ask that
-you keep it in the `olincollege` GitHub organization, and that you refrain from
-keeping the repository private. This will ensure that relevant people can access
-your repository for assessment, etc.
+Our project scrapes data from myanimelist.net to find the highest scored and ranked anime out of the 50 most popular (most watched) and favorited (most loved) anime on the website.
 
 ## Requirements
 
-The `requirements.txt` file is blank and should be filled out with any project
-dependencies. There is a Python package called `pipreqs` that autogenerates the
-contents of the `requirements.txt` file based on the `import` statements in your
-`.py` files. To get this, run
+To run the data extraction files `popular_data.py` and `favorite_data.py`, you will need to install BeautifulSoup4. To install BeautifulSoup4, run the following command:
 
-```
-pip install pipreqs
-```
+pip install beautifulsoup4
 
-Then, in the root of your project repository, run:
+To run the visualizations file `visualizations.py`, you will need to install Pandas and Matplotlib. To install these libraries, run the following command:
 
-```
-pipreqs --mode compat
-```
+pip install pandas matplotlib
 
-If you already have a `requirements.txt`, the above command will ask you to
-rerun the command with the `--force` flag to overwrite it.
+After executing these commands, you will have installed the required libraries BeautifulSoup4, Pandas, and Matplotlib needed to run the files.
+
+
+
