@@ -51,15 +51,31 @@ clean_episodes_cases = [
     # are in the same TV and Movie format as the myanimelist dataframe and
     # tests that a ? will automatically change to 1000
     ("Test/clean_mock_csv6.csv", [24, 1000, 12, 36, 1]),
+    # Test a csv with a column s other than just episodes will return
+    # the correct cleaned data
+    ("Test/clean_mock_csv7.csv", [12, 1000, 36, 64, 1]),
 ]
 
 
 @pytest.mark.parametrize("csv1, csv2, csv3", combine_data_sets_cases)
 def test_combine_data_sets(csv1, csv2, csv3):
     """
-    Test that a
+    Test that two pandas dataframes can be combined into a single pandas
+    dataframe with the correct values and order.
+
+    Check that given two pandas dataframes the combine_data_set() function
+    can return a single pandas dataframes no matter what is in the two
+    entered pandas dataframes
 
     Args:
+        csv1: A csv file that will be converted into a pandas dataframe that
+            will be the first dataframe in the combination
+        csv2: A csv file that will be converted into a pandas dataframe that
+            will be the second dataframe in the combination
+        csv3: A csv file that will be converted into a pandas dataframe that
+            holds the correct combined data from the two pandas dataframes being
+            combined
+
 
     """
     result = combine_data_sets(make_data_set(csv1), make_data_set(csv2))
@@ -70,9 +86,18 @@ def test_combine_data_sets(csv1, csv2, csv3):
 @pytest.mark.parametrize("csv1, test_list", clean_episodes_cases)
 def test_clean_episodes(csv1, test_list):
     """
-    Test that a
+    Test that inside a pandas dataframes, a single column can be altered
+    and manipulated and cleaned to make the data easier to manipulate
+
+    Check that given a pandas dataframe the clean_episodes function will
+    be able to access the correct column and correctly alter the strings
+    in each row to return a list of integers
 
     Args:
+        csv1: A csv file that will be converted into a pandas dataframe that
+            will contain atleast one column of "Episodes" that will be cleaned
+        test_list: A list that contains the correct cleaned output of the
+            clean_episodes() function
 
     """
     result = clean_episodes(make_data_set(csv1))
